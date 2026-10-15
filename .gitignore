@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Database
+*.db
+
 # Distribution / packaging
 .Python
 build/
@@ -21,6 +24,7 @@ sdist/
 var/
 wheels/
 share/python-wheels/
+scratch/
 *.egg-info/
 .installed.cfg
 *.egg
