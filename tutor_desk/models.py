@@ -90,3 +90,42 @@ def unpaid_sessions(connection, student_id = None):
     query += " ORDER BY date"
     return connection.execute(query, params).fetchall()
 
+def minutes_per_student(connection, student_id = None):
+    params = []
+    query = """
+        SELECT students.id, students.name, COALESCE(SUM(sessions.duration_min), 0) AS duration
+        FROM students
+        LEFT JOIN sessions ON sessions.student_id = students.id
+    """
+    if student_id:
+        query += " WHERE students.id = ?"
+        params.append(student_id)
+    query += " GROUP BY students.id ORDER BY duration DESC"
+    return connection.execute(query, params).fetchall()
+
+def format_duration(total_min):
+    hours, minutes = divmod(total_min, 60)
+    if hours and minutes:
+        return f"{hours} h {minutes} min"
+    if hours:
+        return f"{hours} h"
+    return f"{minutes} min"
+
+def top_topics(connection, limit=5):
+    return connection.execute("""
+        SELECT topics.id, topics.subject, topics.name, COUNT(session_topics.session_id) AS session_count
+        FROM topics 
+        JOIN session_topics ON session_topics.topic_id = topics.id
+        GROUP BY topics.id
+        ORDER BY session_count DESC, topics.name
+        LIMIT ?
+    """, (limit,)).fetchall()
+
+def sessions_per_month(connection):
+    return connection.execute("""
+        SELECT strftime('%Y-%m', date) AS month,
+               COUNT(*) AS session_count
+        FROM sessions
+        GROUP BY month
+        ORDER BY month DESC
+    """).fetchall()
