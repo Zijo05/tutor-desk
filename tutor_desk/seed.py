@@ -11,7 +11,6 @@ from tutor_desk.models import (
     set_active,
 )
 
-# All fictional. (name, level, school, contact, active)
 STUDENTS = [
     ("Amar Hodžić", "highschool", "Gimnazija Ilijaš", "061 111 222", True),
     ("Lejla Begović", "highschool", "Prva gimnazija", None, True),

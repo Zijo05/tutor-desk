@@ -41,6 +41,9 @@ def add_topic(connection, subject, name):
     connection.commit()
     return row["id"]
 
+def get_session(connection, session_id=None):
+    return connection.execute("SELECT * FROM sessions WHERE id = ?", (session_id, )).fetchone()
+
 def log_session(connection, student_id, date, duration_min, subject, topic_ids, notes=None):
     try:
         session_id = connection.execute(
