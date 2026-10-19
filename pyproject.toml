@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tutor-desk"
+version = "0.1.0"
+description = "Manage tutoring students, sessions and tests from the terminal."
+requires-python = ">=3.9"
+dependencies = ["typer", "rich"]
+
+[project.scripts]
+tutor-desk = "tutor_desk.cli:app"
+
+[tool.setuptools]
+packages = ["tutor_desk"]
